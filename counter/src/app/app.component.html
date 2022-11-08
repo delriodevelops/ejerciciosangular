@@ -1,0 +1,45 @@
+<div class="container row text-center m-5">
+  <div class="col">
+    <h1>{{ counter.countValue }}</h1>
+    <div class="mb-3">
+      <h5>setup</h5>
+      <div class="btn-group">
+        <button class="btn btn-primary" (click)="start()">Start</button>
+        <button class="btn btn-primary" (click)="pause()">Pause</button>
+        <button class="btn btn-primary" (click)="reset()">Reset</button>
+      </div>
+    </div>
+    <div class="mb-3">
+      <h5>count</h5>
+      <div class="btn-group">
+        <button class="btn btn-primary" (click)="setCountUp(true)">
+          Count up
+        </button>
+        <button class="btn btn-primary" (click)="setCountUp(false)">
+          Count down
+        </button>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Set to</label>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="value"
+        (keyup)="setValue()"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Step</label>
+      <input
+        type="number"
+        class="form-control"
+        (keyup)="setIncrementValue()"
+        [(ngModel)]="incrementValue"
+      />
+    </div>
+  </div>
+  <div class="col">
+    <pre>{{ counter | json }}</pre>
+  </div>
+</div>

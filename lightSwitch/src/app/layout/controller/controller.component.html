@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col">
+    <input type="checkbox" (change)="OnOff()" [checked]="switcherValue" />
+    <span>
+      <b> {{ !!switcherValue ? "Encendido" : "Apagado" }}</b>
+    </span>
+  </div>
+  <div class="row">
+    <select name="" id="">
+      <option value="{{ activeColor }}">
+        {{ activeColor | titlecase }}
+      </option>
+    </select>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="parent container text-center p-5 mt-5">
+  <h5>Message: {{ parentMsg | uppercase }}</h5>
+  <div
+    class="btn-group col p-5"
+    role="group"
+    aria-label="Basic mixed styles example"
+  >
+    <button type="button" class="btn btn-primary" (click)="service()">
+      Service
+    </button>
+    <button type="button" class="btn btn-primary" (click)="input()">
+      Input
+    </button>
+    <button type="button" class="btn btn-primary" (click)="observable()">
+      Observable
+    </button>
+  </div>
+  <br />
+  <app-child
+    class="col"
+    [childMsg]="childMsg"
+    (outputFromChild)="output($event)"
+  ></app-child>
+</div>

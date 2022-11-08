@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col">
+    <div class="row">
+      <div class="col semaforo text-center">
+        <div class="row light {{ activeColor === 'red' && 'red' }}"></div>
+        <div class="row light {{ activeColor === 'amber' && 'amber' }}"></div>
+        <div class="row light {{ activeColor === 'green' && 'green' }}"></div>
+      </div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+  </div>
+  <app-controller
+    class="col"
+    (switchControl)="controllerSwitch($event)"
+  ></app-controller>
+</div>

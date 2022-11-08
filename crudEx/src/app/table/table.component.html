@@ -1,0 +1,36 @@
+<table class="table table-bordered align-middle">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let col of displayedColumns">
+        {{ col | titlecase }}
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    scope="row"
+    class="table-group-divider text-center"
+    *ngFor="let el of data"
+  >
+    <tr>
+      <td class="col">
+        {{ el.username | titlecase }}
+      </td>
+      <td class="col">
+        {{ el.email }}
+      </td>
+      <td class="col">
+        <mat-icon *ngIf="!!el.suscrito">check</mat-icon>
+      </td>
+      <td class="col">
+        {{ el.pais | titlecase }}
+      </td>
+      <td class="col">
+        {{ el.ciudad | titlecase }}
+      </td>
+      <td class="col">
+        <mat-icon (click)="onEdit(el.id!)">edit</mat-icon>
+        <mat-icon (click)="delete(el.id!)">delete</mat-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>

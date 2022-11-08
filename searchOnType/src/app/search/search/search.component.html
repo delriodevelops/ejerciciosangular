@@ -1,0 +1,39 @@
+<div class="container">
+  <h1 class="mt-2">
+    Buscar universidad: <small>{{ selectedCountry | titlecase }}</small>
+  </h1>
+  <hr />
+  <div class="col">
+    <form class="input-group">
+      <button
+        *ngFor="let country of countries"
+        type="button"
+        class="btn btn-primary {{
+          country.name === selectedCountry && 'active'
+        }}"
+        (click)="selectCountry(country)"
+      >
+        {{ country.name | titlecase }}
+      </button>
+      <input
+        type="text"
+        placeholder="Buscar universidad..."
+        class="form-control"
+        [(ngModel)]="query"
+        name="query"
+        (input)="searchOnType()"
+      />
+    </form>
+  </div>
+  <ul class="list-group" *ngIf="query.length > 0">
+    <li class="list-group-item" *ngFor="let uni of filteredOptions">
+      {{ uni.name }}, {{ uni.country }}
+    </li>
+    <li
+      class="list-group-item"
+      *ngIf="query.length !== 0 && filteredOptions.length < 1"
+    >
+      No se encontraron resultados para "{{ query }}"
+    </li>
+  </ul>
+</div>

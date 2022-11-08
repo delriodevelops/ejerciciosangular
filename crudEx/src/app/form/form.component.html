@@ -1,0 +1,130 @@
+<form
+  class="example-container col"
+  [formGroup]="myForm"
+  (ngSubmit)="!user.registered ? save() : edit()"
+>
+  <mat-form-field appearance="fill">
+    <mat-label>Nombre de usuario</mat-label>
+    <input
+      color="primary"
+      matInput
+      placeholder="Josep Brit"
+      formControlName="username"
+      type="text"
+      required
+    />
+    <mat-error *ngIf="validateField('username')"
+      >Debes introducir un nombre válido</mat-error
+    >
+  </mat-form-field>
+  <br />
+  <br />
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+      color="primary"
+      matInput
+      placeholder="abc@test.com"
+      formControlName="email"
+      type="email"
+      required
+    />
+    <mat-error *ngIf="validateField('email')"
+      >Debes introducir un mail válido</mat-error
+    >
+  </mat-form-field>
+  <br />
+  <br />
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input
+      color="primary"
+      matInput
+      type="password"
+      placeholder="password"
+      formControlName="password"
+      required
+    />
+    <mat-error *ngIf="validateField('password')"
+      >La contraseña debe tener al menos 6 caracteres</mat-error
+    >
+  </mat-form-field>
+  <br />
+  <br />
+  <mat-form-field appearance="fill">
+    <mat-label>Confirm password</mat-label>
+    <input
+      color="primary"
+      matInput
+      type="password"
+      placeholder="password"
+      formControlName="confirm"
+      required
+    />
+    <mat-error *ngIf="validateField('confirm')"
+      >La contraseña debe tener al menos 6 caracteres</mat-error
+    >
+  </mat-form-field>
+  <br />
+  <br />
+  <mat-checkbox formControlName="suscrito"
+    >Deseo recibir notificaciones</mat-checkbox
+  >
+  <br />
+  <br />
+  <mat-form-field>
+    <mat-label>Pais</mat-label>
+    <mat-select formControlName="pais">
+      <mat-option *ngFor="let country of countries" [value]="country">
+        {{ country }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="validateField('pais')">Selecciona un país</mat-error>
+  </mat-form-field>
+  <br />
+  <br />
+  <mat-form-field appearance="fill">
+    <mat-label>Ciudad</mat-label>
+    <input
+      color="primary"
+      matInput
+      placeholder="Chicago"
+      formControlName="ciudad"
+      type="text"
+      required
+    />
+    <mat-error *ngIf="validateField('ciudad')"
+      >Debes introducir una ciudad</mat-error
+    >
+  </mat-form-field>
+  <br />
+  <br />
+  <mat-error *ngIf="!!customError">{{ customError }}</mat-error>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="myForm.invalid && true"
+  >
+    {{ !!user.registered ? "Editar" : "Crear" }}
+  </button>
+</form>
+<div class="col">
+  <app-table (edit)="changeUser($event)" [data]="data"></app-table>
+</div>
+
+<!-- 
+  
+  Ver información de usuario y formulario en tiempo real
+
+<br />
+<br />
+<br />
+<br />
+<div class="col">
+  <h3 class="row">User</h3>
+  <pre class="row">{{ user | json }}</pre>
+  <h3 class="row">Form</h3>
+  <pre class="row">{{ myForm.value | json }}</pre>
+</div> 
+-->

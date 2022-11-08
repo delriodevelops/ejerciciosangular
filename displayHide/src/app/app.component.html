@@ -1,0 +1,7 @@
+<h1>Display/Hide</h1>
+<button (click)="toggleValue()">
+  {{ displayValue ? "Esconder" : "Enseñar" }}
+</button>
+<div *ngIf="!!displayValue">
+  <h1>HELLO WORLD!</h1>
+</div>
