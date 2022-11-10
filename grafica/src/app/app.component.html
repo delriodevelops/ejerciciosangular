@@ -1,0 +1,47 @@
+<div class="row container m-3">
+  <h5>Historico de positivos en cada estado de USA</h5>
+  <div class="col">
+    <div
+      class="alert alert-info"
+      *ngIf="barChartData.labels?.length === 0; else barChar"
+    >
+      Cargando datos...
+    </div>
+    <ng-template #barChar>
+      <div style="display: block">
+        <canvas
+          baseChart
+          [data]="barChartData"
+          [labels]="barChartLabels"
+          [options]="chartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<div class="row container m-3">
+  <h5>Evolución de contagios en USA</h5>
+  <div class="col">
+    <div
+      class="alert alert-info"
+      *ngIf="lineChartData.datasets[0].data?.length === 0; else lineChar"
+    >
+      Cargando datos...
+    </div>
+  </div>
+  <ng-template #lineChar>
+    <div style="display: block">
+      <canvas
+        baseChart
+        width="400"
+        height="400"
+        [data]="lineChartData"
+        [options]="chartOptions"
+        [type]="'line'"
+      ></canvas>
+    </div>
+  </ng-template>
+</div>
