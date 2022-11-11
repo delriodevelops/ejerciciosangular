@@ -21,10 +21,12 @@ export class GraficasService {
       switchMap((data: any) => {
         return [
           data
+            //traer unicamente los datos que nos interesan, en este caso state: el estado, y positiveTestsViral: los casos positivos reportados.
             .map(({ state, positiveTestsViral }: any) => ({
               state,
               positiveTestsViral,
             }))
+            //traer los estados que SÍ tienen datos (en esta API) de positivos y desacernos de los que no tienen.
             .filter((obj: any) => !!obj.positiveTestsViral),
         ];
       })
