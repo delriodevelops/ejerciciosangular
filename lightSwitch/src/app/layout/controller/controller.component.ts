@@ -14,10 +14,10 @@ import { TrafficService } from '../traffic.service';
   ],
 })
 export class ControllerComponent implements OnInit {
+  @Output() switchControl: EventEmitter<any> = new EventEmitter();
+
   activeColor = '';
   switcherValue: boolean = false;
-
-  @Output() switchControl: EventEmitter<any> = new EventEmitter();
 
   constructor(private traffic: TrafficService) {}
 
@@ -27,6 +27,7 @@ export class ControllerComponent implements OnInit {
         this.activeColor = color;
       },
     });
+
     this.traffic.switcherValue$.subscribe({
       next: (value) => (this.switcherValue = value),
     });

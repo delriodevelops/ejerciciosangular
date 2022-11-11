@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, switchMap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CrudService {
-  constructor(private http: HttpClient) {}
   url = 'http://localhost:3000';
+  private _users = new Subject<User[]>();
+  users$ = this._users.asObservable();
+
+  constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.url}/users`);
@@ -30,12 +33,12 @@ export class CrudService {
   }
 
   setUsers() {
-    this.getUsers().subscribe({
-      next: (users) => this._users.next(users),
-    });
+    this.getUsers()
+      //Como buena práctica eliminar la contraseña al traer los usuarios
+      .pipe(switchMap((users) => [users.map(({ password, ...user }) => user)]))
+      .subscribe({
+        next: (users) => this._users.next(users),
+      });
     return this.users$;
   }
-
-  private _users = new Subject<User[]>();
-  users$ = this._users.asObservable();
 }

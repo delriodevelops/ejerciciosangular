@@ -1,8 +1,4 @@
-<form
-  class="example-container col"
-  [formGroup]="myForm"
-  (ngSubmit)="!user.registered ? save() : edit()"
->
+<form class="example-container col" [formGroup]="myForm" (ngSubmit)="save()">
   <mat-form-field appearance="fill">
     <mat-label>Nombre de usuario</mat-label>
     <input
@@ -104,27 +100,22 @@
     mat-raised-button
     color="primary"
     type="submit"
-    [disabled]="myForm.invalid && true"
+    [disabled]="myForm.invalid"
   >
-    {{ !!user.registered ? "Editar" : "Crear" }}
+    {{ !!user.id ? "Editar" : "Crear" }}
   </button>
 </form>
 <div class="col">
   <app-table (edit)="changeUser($event)" [data]="data"></app-table>
 </div>
 
-<!-- 
-  
-  Ver información de usuario y formulario en tiempo real
-
 <br />
 <br />
 <br />
 <br />
-<div class="col">
+<div class="row">
   <h3 class="row">User</h3>
   <pre class="row">{{ user | json }}</pre>
   <h3 class="row">Form</h3>
   <pre class="row">{{ myForm.value | json }}</pre>
-</div> 
--->
+</div>

@@ -16,11 +16,13 @@ export class AppService {
     incrementValue: 2,
   };
   counter$ = new BehaviorSubject<Counter>(this._initCounter);
+
   constructor() {}
+
   startPause(bool: boolean) {
-    console.log(this._initCounter);
     if (bool) {
       this._initCounter.counting = true;
+
       this.interval = setInterval(() => {
         if (this._initCounter.countUp) {
           this._initCounter.countValue =
@@ -35,10 +37,12 @@ export class AppService {
       clearInterval(this.interval);
     }
   }
+
   reset() {
     clearInterval(this.interval);
     this._initCounter.countValue = this._initCounter.value;
   }
+
   setCountUp(bool: boolean) {
     this._initCounter.countUp = bool;
   }

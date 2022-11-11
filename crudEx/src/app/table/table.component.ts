@@ -8,7 +8,8 @@ import { CrudService } from '../services/crud.service';
   templateUrl: './table.component.html',
 })
 export class TableComponent implements OnInit {
-  constructor(private crud: CrudService) {}
+  @Output() edit: EventEmitter<any> = new EventEmitter();
+  @Input() data: User[] = [];
   displayedColumns: string[] = [
     'username',
     'email',
@@ -17,27 +18,20 @@ export class TableComponent implements OnInit {
     'ciudad',
     'actions',
   ];
-  @Output() edit: EventEmitter<any> = new EventEmitter();
-  @Input() data: User[] = [];
+
+  constructor(private crud: CrudService) {}
+
+  ngOnInit(): void {}
 
   onEdit(id: number) {
     this.edit.emit(id);
   }
+
   delete(id: number) {
-    console.log('borrar:', id);
-    this.crud.deleteUser(id).subscribe((res) => this.getUsers());
+    this.crud.deleteUser(id).subscribe(() =>
+      this.crud.setUsers().subscribe({
+        next: (users) => (this.data = users),
+      })
+    );
   }
-  getUsers() {
-    this.crud
-      .getUsers()
-      .pipe(
-        switchMap((obj) => {
-          return [obj.map(({ password, ...obj }) => obj)];
-        })
-      )
-      .subscribe((obj: User[]) => {
-        this.data = obj;
-      });
-  }
-  ngOnInit(): void {}
 }

@@ -8,28 +8,30 @@ import { SearchService } from '../services/search.service';
   templateUrl: './search.component.html',
 })
 export class SearchComponent implements OnInit {
-  constructor(private searchService: SearchService) {}
   filteredOptions: University[] = [];
+  selectedAlphaTwoCode = '';
+  selectedCountry = 'all';
+  query: string = '';
   countries = [
     { name: 'all', value: '' },
     { name: 'spain', value: 'ES' },
     { name: 'united kingdom', value: 'GB' },
     { name: 'portugal', value: 'PT' },
   ];
-  selectedCountry = 'all';
+
+  constructor(private searchService: SearchService) {}
+
+  ngOnInit(): void {}
+
   selectCountry(country: any) {
     this.query = '';
     this.selectedCountry = country.name;
     this.selectedAlphaTwoCode = country.value;
   }
-  selectedAlphaTwoCode = '';
 
   searchOnType() {
     this.searchService
       .searchUniversity(this.query, this.selectedAlphaTwoCode)
       .subscribe((unis) => (this.filteredOptions = unis));
   }
-  query: string = '';
-
-  ngOnInit(): void {}
 }

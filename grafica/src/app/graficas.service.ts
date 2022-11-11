@@ -9,11 +9,13 @@ import { DayData } from './day.interface';
 })
 export class GraficasService {
   constructor(private http: HttpClient) {}
+
   getByState() {
     return this.http.get(
       'https://api.covidtracking.com/v1/states/current.json'
     );
   }
+
   getByStateFiltered() {
     return this.getByState().pipe(
       switchMap((data: any) => {
@@ -28,9 +30,11 @@ export class GraficasService {
       })
     );
   }
+
   getUsaTotal() {
     return this.http.get('https://api.covidtracking.com/v1/us/daily.json');
   }
+
   getUsaTotalFiltered() {
     return this.getUsaTotal().pipe(
       switchMap((data: any) => {

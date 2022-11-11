@@ -33,17 +33,17 @@ import { TrafficService } from '../traffic.service';
   ],
 })
 export class LightComponent implements OnInit {
-  constructor(private traffic: TrafficService) {}
-
   activeColor: string = '';
 
-  controllerSwitch(val: any) {
-    this.traffic.switcher(val);
-  }
+  constructor(private traffic: TrafficService) {}
 
   ngOnInit(): void {
     this.traffic.lightColor$.subscribe({
       next: (color) => (this.activeColor = color),
     });
+  }
+
+  controllerSwitch(val: any) {
+    this.traffic.switcher(val);
   }
 }

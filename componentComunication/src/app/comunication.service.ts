@@ -5,6 +5,15 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ComunicationService {
+  // Service var
+  private _msgChild = new Subject<string>();
+  private _msgParent = new Subject<string>();
+
+  messageChild$ = this._msgChild.asObservable();
+  messageParent$ = this._msgParent.asObservable();
+
+  constructor() {}
+
   // Service functions
   setMessageFromServiceToParent(msg: string) {
     this._msgParent.next(msg);
@@ -21,12 +30,4 @@ export class ComunicationService {
   messageObservableForParent() {
     return this._msgParent.next('Parent using subject');
   }
-
-  // Service var
-  private _msgChild = new Subject<string>();
-  private _msgParent = new Subject<string>();
-
-  messageChild$ = this._msgChild.asObservable();
-  messageParent$ = this._msgParent.asObservable();
-  constructor() {}
 }

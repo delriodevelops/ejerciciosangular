@@ -15,6 +15,8 @@ import { ComunicationService } from './comunication.service';
   ],
 })
 export class AppComponent {
+  childMsg: string = '';
+  parentMsg: string = '';
   title = 'componentComunication';
   constructor(public comunicationService: ComunicationService) {
     this.comunicationService.messageChild$.subscribe(
@@ -22,8 +24,6 @@ export class AppComponent {
     );
   }
 
-  childMsg: string = '';
-  parentMsg: string = '';
   input() {
     this.childMsg = 'Parent using input';
   }

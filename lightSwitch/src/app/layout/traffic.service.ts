@@ -26,7 +26,7 @@ export class TrafficService {
           this.switcherValue$.next(false);
           clearInterval(this.timer);
         }
-      }, 500);
+      }, 1500);
     } else {
       this.switcherValue$.next(false);
       clearInterval(this.timer);

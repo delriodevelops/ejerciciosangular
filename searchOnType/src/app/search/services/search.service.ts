@@ -8,6 +8,7 @@ import { University } from '../interfaces/university.interface';
 })
 export class SearchService {
   constructor(private http: HttpClient) {}
+
   searchUniversity(
     query: string,
     alphaTwoCode: string = ''

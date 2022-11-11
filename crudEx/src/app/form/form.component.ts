@@ -14,82 +14,21 @@ import { CrudService } from '../services/crud.service';
   templateUrl: './form.component.html',
 })
 export class FormComponent implements OnInit {
-  constructor(private fb: FormBuilder, private crud: CrudService) {}
-  save() {
-    if (
-      this.myForm.get('password')?.value !== this.myForm.get('confirm')?.value
-    ) {
-      this.customError = 'Las contraseñas no coinciden...';
-      return;
-    }
-    const newUser = { ...this.myForm.value, registered: true };
-    this.crud.postUser(newUser).subscribe({ next: () => this.crud.setUsers() });
-    this.myForm.reset();
-  }
-  edit() {
-    if (
-      this.myForm.get('password')?.value !== this.myForm.get('confirm')?.value
-    ) {
-      this.customError = 'Las contraseñas no coinciden...';
-      return;
-    }
-    const newUser = {
-      ...this.myForm.value,
-      registered: true,
-      id: this.user.id,
-    };
-    this.crud.putUser(newUser).subscribe({ next: () => this.crud.setUsers() });
-    this.myForm.reset();
-  }
   data: User[] = [];
-
-  getUsers() {
-    this.crud
-      .getUsers()
-      .pipe(
-        switchMap((obj) => {
-          return (this.data = obj.map(({ password, ...obj }) => obj));
-        })
-      )
-      .subscribe((obj) => {});
-  }
-
   customError: string | boolean = false;
-
-  changeUser(id: number) {
-    this.crud.getUserById(id).subscribe(({ ...res }) => {
-      this.myForm.reset({ ...res, confirm: res.password });
-      this.user = res;
-    });
-  }
-
-  validateField(field: string) {
-    this.customError = false;
-    if (this.myForm.get(field)?.touched && this.myForm.get(field)?.invalid) {
-      return true;
-    }
-
-    return false;
-  }
-
   countries: string[] = [];
-
+  myForm!: any;
   user: User = {
     username: '',
     email: '',
     suscrito: false,
     pais: '',
     ciudad: '',
-    registered: false,
   };
 
-  myForm!: any;
+  constructor(private fb: FormBuilder, private crud: CrudService) {}
 
   ngOnInit(): void {
-    this.crud.setUsers().subscribe({
-      next: (res) => (this.data = res),
-    });
-
     this.myForm = this.fb.group({
       username: [, [Validators.required]],
       email: [, [Validators.required, Validators.email]],
@@ -99,7 +38,55 @@ export class FormComponent implements OnInit {
       pais: [, [Validators.required]],
       ciudad: [, [Validators.required]],
     });
+
+    this.crud.setUsers().subscribe({
+      next: (res) => (this.data = res),
+    });
+
     this.crud.getCountries().subscribe((arr) => (this.countries = arr));
     this.myForm.reset({ ...this.user, confirm: this.user.password });
+  }
+
+  save() {
+    //Validar que confirma la contraseña
+    if (
+      this.myForm.get('password')?.value !== this.myForm.get('confirm')?.value
+    ) {
+      this.customError = 'Las contraseñas no coinciden...';
+      return;
+    }
+
+    //Evaluar si el usuario está registrado(si tiene id) para enviar un post o un put
+    delete this.myForm['confirm'];
+    if (!this.user.id) {
+      const newUser = {
+        ...this.myForm.value,
+        id: this.user.id,
+      };
+
+      this.crud
+        .postUser(newUser)
+        .subscribe({ next: () => this.crud.setUsers() });
+    } else {
+      this.crud
+        .putUser(this.myForm.value)
+        .subscribe({ next: () => this.crud.setUsers() });
+    }
+    this.myForm.reset();
+  }
+
+  changeUser(id: number) {
+    this.crud.getUserById(id).subscribe(({ password, ...user }) => {
+      this.myForm.reset({ ...user, confirm: password, password: password });
+      this.user = { ...user, password };
+    });
+  }
+
+  validateField(field: string) {
+    this.customError = false;
+    if (this.myForm.get(field)?.touched && this.myForm.get(field)?.invalid) {
+      return true;
+    }
+    return false;
   }
 }

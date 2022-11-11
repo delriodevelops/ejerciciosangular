@@ -14,24 +14,8 @@ import { GraficasService } from './graficas.service';
 })
 export class AppComponent implements OnInit {
   title = 'grafica';
-  constructor(private graficasService: GraficasService) {}
-  ngOnInit() {
-    this.graficasService.getByStateFiltered().subscribe((res) => {
-      res.forEach(({ state, positiveTestsViral }: any) => {
-        this.barChartData.datasets[0].data.push(positiveTestsViral);
-        this.barChartLabels.push(state);
-      });
-      console.log(this.barChartData);
-    });
-    this.graficasService.getUsaTotalFiltered().subscribe((res) => {
-      res.reverse();
-      res.forEach(({ date, positive }: any) => {
-        this.lineChartData.datasets[0].data.push(positive);
-        this.lineChartData.labels?.push(this.datify(date));
-      });
-    });
-  }
   barChartLabels: string[] = [];
+
   public barChartData: ChartData<'bar'> = {
     labels: this.barChartLabels,
     datasets: [
@@ -46,10 +30,7 @@ export class AppComponent implements OnInit {
     labels: [],
     datasets: [{ data: [], backgroundColor: '#e00', label: 'Positivos' }],
   };
-  datify(date: number) {
-    const str = JSON.stringify(date);
-    return str.slice(6, 8) + '/' + str.slice(4, 6) + '/' + str.slice(0, 4);
-  }
+
   chartOptions: ChartOptions = {
     // ⤵️ Fill the wrapper
     responsive: true,
@@ -99,4 +80,26 @@ export class AppComponent implements OnInit {
       },
     },
   };
+  constructor(private graficasService: GraficasService) {}
+
+  ngOnInit() {
+    this.graficasService.getByStateFiltered().subscribe((res) => {
+      res.forEach(({ state, positiveTestsViral }: any) => {
+        this.barChartData.datasets[0].data.push(positiveTestsViral);
+        this.barChartLabels.push(state);
+      });
+    });
+
+    this.graficasService.getUsaTotalFiltered().subscribe((res) => {
+      res.reverse().forEach(({ date, positive }: any) => {
+        this.lineChartData.datasets[0].data.push(positive);
+        this.lineChartData.labels?.push(this.datify(date));
+      });
+    });
+  }
+
+  datify(date: number) {
+    const str = JSON.stringify(date);
+    return str.slice(6, 8) + '/' + str.slice(4, 6) + '/' + str.slice(0, 4);
+  }
 }

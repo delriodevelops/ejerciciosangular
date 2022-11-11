@@ -5,6 +5,5 @@ export interface User {
   pais: string;
   ciudad: string;
   password?: string;
-  registered?: boolean;
   id?: number | null;
 }

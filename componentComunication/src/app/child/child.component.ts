@@ -15,13 +15,16 @@ import { ComunicationService } from '../comunication.service';
   ],
 })
 export class ChildComponent implements OnInit {
+  @Input() childMsg: string = '';
+  @Output() outputFromChild: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(private comunicationService: ComunicationService) {
     comunicationService.messageParent$.subscribe(
       (msg) => (this.childMsg = msg)
     );
   }
-  @Input() childMsg: string = '';
-  @Output() outputFromChild: EventEmitter<string> = new EventEmitter<string>();
+
+  ngOnInit(): void {}
 
   Service() {
     this.comunicationService.setMessageFromServiceToChild(
@@ -34,6 +37,4 @@ export class ChildComponent implements OnInit {
   Observable() {
     this.comunicationService.messageObservableForChild();
   }
-
-  ngOnInit(): void {}
 }
